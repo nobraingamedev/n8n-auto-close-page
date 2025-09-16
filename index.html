@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Form Submitted Successfully</title>
+  <title>Success</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * {
       margin: 0;
@@ -13,37 +12,166 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: linear-gradient(135deg, var(--tg-theme-bg-color, #f0f2f5) 0%, var(--tg-theme-secondary-bg-color, #e8eef3) 100%);
-      color: var(--tg-theme-text-color, #1a1a1a);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      overflow: hidden;
       position: relative;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
+    .particle {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .particle:nth-child(1) { left: 20%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 40%; animation-delay: 1s; }
+    .particle:nth-child(3) { left: 60%; animation-delay: 2s; }
+    .particle:nth-child(4) { left: 80%; animation-delay: 3s; }
+    .particle:nth-child(5) { left: 10%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+      50% { transform: translateY(-100vh) scale(1); opacity: 1; }
+    }
+
     .container {
-      background: var(--tg-theme-bg-color, #ffffff);
-      border-radius: 24px;
-      padding: 48px 32px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 60px 40px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      border: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.05));
-      max-width: 400px;
+      box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+      max-width: 420px;
       width: 90%;
-      transform: translateY(0);
-      animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(0.8);
+      animation: appearScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes appearScale {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 32px;
       position: relative;
-      backdrop-filter: blur(10px);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .success-icon::before {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      color: #4CAF50;
+      font-weight: bold;
+    }
+
+    .success-icon::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 4px solid #4CAF50;
+      border-radius: 50%;
+      animation: drawCircle 1s ease-out 0.3s both;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes drawCircle {
+      0% {
+        stroke-dasharray: 0 314;
+        transform: rotate(-90deg);
+      }
+      100% {
+        stroke-dasharray: 314 0;
+        transform: rotate(0deg);
+      }
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+      animation: slideUp 0.6s ease-out 0.5s both;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #6b7280;
+      margin-bottom: 32px;
+      animation: slideUp 0.6s ease-out 0.7s both;
+    }
+
+    .countdown-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      animation: slideUp 0.6s ease-out 0.9s both;
+    }
+
+    .countdown-text {
+      font-size: 16px;
+      color: #9ca3af;
+    }
+
+    .countdown-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: #667eea;
+      min-width: 40px;
+      display: inline-flex;
+      justify-content: center;
+      animation: countdownPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes countdownPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
     }
 
     @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -51,300 +179,138 @@
       }
     }
 
-    .success-icon {
-      font-size: 72px;
-      margin-bottom: 24px;
-      display: inline-block;
-      animation: bounce 0.8s ease-out 0.3s both;
-      filter: drop-shadow(0 4px 8px rgba(76, 175, 80, 0.2));
-    }
-
-    @keyframes bounce {
-      0%, 20%, 53%, 80%, 100% {
-        transform: translate3d(0,0,0) scale(1);
-      }
-      40%, 43% {
-        transform: translate3d(0,-8px,0) scale(1.1);
-      }
-      70% {
-        transform: translate3d(0,-4px,0) scale(1.05);
-      }
-      90% {
-        transform: translate3d(0,-2px,0) scale(1.02);
-      }
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, var(--tg-theme-text-color, #1a1a1a), var(--tg-theme-hint-color, #666));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-    }
-
-    .subtitle {
-      font-size: 16px;
-      color: var(--tg-theme-hint-color, #666);
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    .countdown {
-      font-size: 14px;
-      color: var(--tg-theme-hint-color, #888);
-      margin-bottom: 32px;
-      opacity: 0.8;
-    }
-
-    .close-btn {
-      background: linear-gradient(135deg, var(--tg-theme-button-color, #007AFF) 0%, var(--tg-theme-button-color, #0056CC) 100%);
-      color: var(--tg-theme-button-text-color, #ffffff);
-      border: none;
-      padding: 16px 32px;
-      border-radius: 16px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
+    .progress-ring {
       position: relative;
-      overflow: hidden;
-      min-width: 140px;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      animation: slideUp 0.6s ease-out 1.1s both;
     }
 
-    .close-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
+    .progress-ring svg {
+      width: 80px;
+      height: 80px;
+      transform: rotate(-90deg);
     }
 
-    .close-btn:hover::before {
-      left: 100%;
+    .progress-ring-bg {
+      fill: none;
+      stroke: #e5e7eb;
+      stroke-width: 4;
     }
 
-    .close-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0, 122, 255, 0.4);
+    .progress-ring-fill {
+      fill: none;
+      stroke: #667eea;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 226;
+      stroke-dashoffset: 226;
+      animation: countdown 2s linear;
     }
 
-    .close-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 3px;
-      background: var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
-      border-radius: 2px;
-      overflow: hidden;
-      margin-top: 24px;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--tg-theme-button-color, #007AFF), var(--tg-theme-button-color, #00D4FF));
-      border-radius: 2px;
-      width: 0%;
-      animation: progress 2s linear;
-    }
-
-    @keyframes progress {
-      from { width: 100%; }
-      to { width: 0%; }
-    }
-
-    .background-decoration {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      opacity: 0.03;
-      background-image: radial-gradient(circle at 20% 80%, var(--tg-theme-button-color, #007AFF) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, var(--tg-theme-button-color, #007AFF) 0%, transparent 50%);
+    @keyframes countdown {
+      to {
+        stroke-dashoffset: 0;
+      }
     }
 
     @media (max-width: 480px) {
       .container {
-        padding: 36px 24px;
-        border-radius: 16px;
-      }
-      
-      .success-icon {
-        font-size: 60px;
+        padding: 48px 32px;
+        border-radius: 24px;
       }
       
       h1 {
-        font-size: 24px;
+        font-size: 28px;
+      }
+      
+      .success-icon {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .success-icon::before {
+        font-size: 36px;
       }
     }
 
-    /* Dark mode support */
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      }
-      
-      .container {
-        background: rgba(42, 42, 42, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    .closing-state .container {
+      animation: fadeOut 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.9);
       }
     }
   </style>
 </head>
 <body>
-  <div class="background-decoration"></div>
-  
+  <!-- Floating particles -->
+  <div class="particles">
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+  </div>
+
   <div class="container">
-    <div class="success-icon">✅</div>
-    <h1>Successfully Submitted!</h1>
-    <p class="subtitle">Your form has been processed successfully</p>
-    <p class="countdown" id="countdown">This window will close in <span id="timer">2</span> seconds</p>
+    <div class="success-icon"></div>
     
-    <button class="close-btn" onclick="closeWebApp()" id="closeBtn">
-      Close Now
-    </button>
+    <h1>Success!</h1>
+    <p class="subtitle">Your submission has been processed</p>
     
-    <div class="progress-bar">
-      <div class="progress-fill"></div>
+    <div class="countdown-container">
+      <span class="countdown-text">Closing in</span>
+      <span class="countdown-number" id="countdown">2</span>
+    </div>
+    
+    <div class="progress-ring">
+      <svg>
+        <circle class="progress-ring-bg" cx="40" cy="40" r="36"></circle>
+        <circle class="progress-ring-fill" cx="40" cy="40" r="36"></circle>
+      </svg>
     </div>
   </div>
 
   <script>
-    let countdownTimer = 2;
-    let intervalId;
+    let timeLeft = 2;
+    const countdownEl = document.getElementById('countdown');
 
-    function updateCountdown() {
-      const timerElement = document.getElementById('timer');
-      const countdownElement = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      timeLeft--;
+      countdownEl.textContent = timeLeft;
       
-      if (countdownTimer > 0) {
-        timerElement.textContent = countdownTimer;
-        countdownTimer--;
-      } else {
-        clearInterval(intervalId);
-        countdownElement.textContent = 'Closing now...';
-        closeWebApp();
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        document.body.classList.add('closing-state');
+        
+        setTimeout(() => {
+          // Try multiple methods to close the tab
+          try {
+            window.close();
+          } catch (e) {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              // Replace content with a simple message
+              document.body.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                  <div style="text-align: center; color: white;">
+                    <div style="font-size: 64px; margin-bottom: 24px;">✓</div>
+                    <h1 style="font-size: 32px; margin-bottom: 16px;">All Done!</h1>
+                    <p style="font-size: 18px; opacity: 0.9;">You can close this tab now</p>
+                  </div>
+                </div>
+              `;
+            }
+          }
+        }, 500);
       }
-    }
-
-    function closeWebApp() {
-      // Clear any running intervals
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-
-      // Visual feedback
-      const btn = document.getElementById('closeBtn');
-      btn.textContent = 'Closing...';
-      btn.style.opacity = '0.7';
-
-      // Check if we're in Telegram Web App
-      if (window.Telegram && window.Telegram.WebApp) {
-        try {
-          window.Telegram.WebApp.close();
-          return;
-        } catch (e) {
-          console.log('Telegram WebApp close failed:', e);
-        }
-      }
-
-      // Try multiple close methods
-      attemptClose();
-    }
-    
-    function attemptClose() {
-      // Method 1: Standard window.close()
-      if (window.opener || window.parent !== window) {
-        try {
-          window.close();
-          return;
-        } catch (e) {
-          console.log('window.close() failed:', e);
-        }
-      }
-
-      // Method 2: Try to go back in history
-      if (history.length > 1) {
-        try {
-          history.back();
-          return;
-        } catch (e) {
-          console.log('history.back() failed:', e);
-        }
-      }
-
-      // Method 3: Try parent window communication
-      try {
-        if (window.parent && window.parent !== window) {
-          window.parent.postMessage({ action: 'close' }, '*');
-        }
-      } catch (e) {
-        console.log('postMessage failed:', e);
-      }
-
-      // Method 4: Replace content with manual close instruction
-      setTimeout(() => {
-        document.body.innerHTML = `
-          <div style="text-align: center; padding: 40px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
-            <div style="background: white; padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); max-width: 400px;">
-              <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
-              <h1 style="margin-bottom: 16px; color: #1a1a1a;">Form Submitted Successfully!</h1>
-              <p style="color: #666; margin-bottom: 16px;">Your form has been processed.</p>
-              <p style="color: #888; font-size: 14px;">Please close this tab or window manually.</p>
-            </div>
-          </div>
-        `;
-      }, 500);
-    }
-    
-    // Initialize the page
-    function init() {
-      // Initialize Telegram Web App if available
-      if (window.Telegram && window.Telegram.WebApp) {
-        try {
-          window.Telegram.WebApp.ready();
-          window.Telegram.WebApp.expand();
-        } catch (e) {
-          console.log('Telegram WebApp initialization failed:', e);
-        }
-      }
-
-      // Start countdown
-      intervalId = setInterval(updateCountdown, 1000);
-      
-      // Add keyboard support
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-          closeWebApp();
-        }
-      });
-
-      // Listen for messages from parent window
-      window.addEventListener('message', function(event) {
-        if (event.data && event.data.action === 'close') {
-          closeWebApp();
-        }
-      });
-    }
-
-    // Start everything when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
+    }, 1000);
   </script>
 </body>
 </html>
